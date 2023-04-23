@@ -26,6 +26,21 @@
 
 ### 1. OOP
 
+Create a creature class in `utils/classes.py` and import it into `src/app.py` to test it. Add optional parameters to the class to allow for more customization down the road.
+
+```python
+from utils.classes import Creature
+
+if __name__ == '__main__':
+    test = Creature(name="Hello World")
+    print(test.name)
+```
+
+```bash
+$ python src/app.py
+Hello World
+```
+
 ### 2. Database
 
 ### 3. Conversion App
