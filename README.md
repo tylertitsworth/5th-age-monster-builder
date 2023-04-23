@@ -4,14 +4,21 @@
 
 ```
 .
-├── data
-├── docker
 ├── README.md
+├── data
+│   ├── huge_stats.csv
+│   ├── initiative.csv
+│   ├── large_stats.csv
+│   ├── mook_stats.csv
+│   ├── normal_stats.csv
+│   └── template.csv
+├── docker
 ├── requirements.txt
 ├── src
 │   ├── app.py
 │   └── utils
-│       └── classes.py
+│       ├── classes.py
+│       └── data.py
 └── tests
 ```
 
@@ -21,12 +28,14 @@
 
 ### 2. Database
 
-### 3. API
+### 3. Conversion App
 
-### 4. Unit Testing
+### 4. API
 
-### 5. GUI
+### 5. Unit Testing
 
-### 6. Containerization
+### 6. GUI
 
-### 7. CI/CD
+### 7. Containerization
+
+### 8. CI/CD
