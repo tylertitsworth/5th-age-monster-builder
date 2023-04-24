@@ -1,12 +1,12 @@
-﻿Modifier,Speed
-–1,Super-slow and utterly clumsy
-0,Slow and clumsy
-1,Awkward or small
-2,Average
-3,Just above average
-4,Quick
-5,Fast
-6,Really fast
-7,Fast like a fast PC
-8,Blindingly fast
-9,Competing with the rogue
+﻿Speed,Modifier
+Super-slow and utterly clumsy,–1
+Slow and clumsy,0
+Awkward or small,1
+Average,2
+Just above average,3
+Quick,4
+Fast,5
+Really fast,6
+Fast like a fast PC,7
+Blindingly fast,8
+Competing with the rogue,9
