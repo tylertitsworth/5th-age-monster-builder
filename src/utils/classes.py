@@ -96,16 +96,16 @@ class Creature:
                  creature_type=None,
                  vulnerabilities=[]
                  ):
-        self.ac = openData(filename=Creature.statType(role, size, strength), row=level + 1, col="AC",
+        self.ac = openData(filename=Creature.statType(role, size, strength), row=level, col="AC",
                            type=int) + openData(filename="template.csv", row=template, col="AC", type=int)
-        self.hp = openData(filename=Creature.statType(role, size, strength), row=level + 1, col="HP",
+        self.hp = openData(filename=Creature.statType(role, size, strength), row=level, col="HP",
                            type=float) * openData(filename="template.csv", row=template, col="HP", type=float)
         self.initiative = level + \
             openData(filename="initiative.csv",
                      row=initiative_type, col="Modifier", type=int)
-        self.md = openData(filename=Creature.statType(role, size, strength), row=level + 1, col=Creature.defPriority(
+        self.md = openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
             favored_defenses=favored_defenses, defense="MD"), type=int) + openData(filename="template.csv", row=template, col="MD", type=int)
-        self.pd = openData(filename=Creature.statType(role, size, strength), row=level + 1, col=Creature.defPriority(
+        self.pd = openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
             favored_defenses=favored_defenses, defense="PD"), type=int) + openData(filename="template.csv", row=template, col="PD", type=int)
         self.condition_immunities = condition_immunities
         self.creature_type = creature_type
@@ -180,10 +180,10 @@ class Attack(Creature):
                  strength=None,
                  template=None,
                  ):
-        self.attack_bonus = openData(filename=Creature.statType(role, size, strength), row=level + 1,
+        self.attack_bonus = openData(filename=Creature.statType(role, size, strength), row=level,
                                      col="Attack Bonus", type=int) + openData(filename="template.csv", row=template, col="Attack", type=int)
         self.damage = openData(filename=Creature.statType(
-                               role, size, strength), row=level + 1, col="Strike Damage", type=int)
+                               role, size, strength), row=level, col="Strike Damage", type=int)
         self.damage_type = f' {attack.get("damage_type", None)}'
         self.defense = attack.get("defense", None)
         self.hit_effect = f', {attack.get("hit_effect", None)}'

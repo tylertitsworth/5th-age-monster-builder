@@ -110,10 +110,10 @@ def openData(filename, row, col, type):
 We originally created inputs for users to enter data, but now we need to use those inputs to create outputs for the `Creature`, `Attack`, `Ability`, and `Trigger` objects.
 
 ```python
-self.attack_bonus = openData(filename=Creature.statType(role, size, strength), row=level + 1,
+self.attack_bonus = openData(filename=Creature.statType(role, size, strength), row=level,
                              col="Attack Bonus", type=int) + openData(filename="template.csv", row=template, col="Attack", type=int)
 self.damage = openData(filename=Creature.statType(
-                       role, size, strength), row=level + 1, col="Strike Damage", type=int)
+                       role, size, strength), row=level, col="Strike Damage", type=int)
 self.damage_type = f' {attack.get("damage_type", None)}'
 self.defense = attack.get("defense", None)
 self.hit_effect = f', {attack.get("hit_effect", None)}'
@@ -185,12 +185,12 @@ $ python src/app.py
 Half-Orc Commander
 Medium 8 level Leader [Humanoid]
 Initiative: +13
-Jagged Longsword +14 vs. AC: 50 damage
+Jagged Longsword +13 vs. AC: 38 damage
 Natural even hit: One nearby lower-level mook makes an attack as a free action.
-R: Thrown Javelin +14 vs. AC: 50 damage
+R: Thrown Javelin +13 vs. AC: 38 damage
 Natural even hit: The half-orc commander gains 20 temporary hit points.
-HP 251 - AC 25
-MD 22 - PD 23
+HP 201 - AC 24
+MD 21 - PD 22
 Orcish Command: When a nearby ally of the half-orc commander scores a critical hit, that ally can roll a save against a save ends effect as a free action.
 Lethal Swing: Once per battle, a half-orc can reroll a melee attack and use the result it prefers
 ```
