@@ -1,28 +1,26 @@
 import csv
 
-
-def openData(filename, row, col, type):
-    with open(f'data/{filename}', newline='', encoding='utf-8-sig') as datafile:
-        reader = csv.reader(datafile)
-        headings = next(reader)
-        colVal = headings.index(col)
-        for dataRow in reader:
-            if dataRow[0] == str(row):
-                if type == float:
-                    if dataRow[colVal] == '':
-                        return 0.0
-                    return float(dataRow[colVal])
-                elif type == int:
-                    if dataRow[colVal] == '':
-                        return 0
-                    return int(dataRow[colVal])
-                else:
-                    return str(type(dataRow[colVal]))
-        print(f'Error: {row} not found in {filename}')
-        return 0
-
-
 class Creature:
+    def openData(filename, row, col, type):
+        with open(f'data/{filename}', newline='', encoding='utf-8-sig') as datafile:
+            reader = csv.reader(datafile)
+            headings = next(reader)
+            colVal = headings.index(col)
+            for dataRow in reader:
+                if dataRow[0] == str(row):
+                    if type == float:
+                        if dataRow[colVal] == '':
+                            return 0.0
+                        return float(dataRow[colVal])
+                    elif type == int:
+                        if dataRow[colVal] == '':
+                            return 0
+                        return int(dataRow[colVal])
+                    else:
+                        return str(type(dataRow[colVal]))
+            print(f'Error: {row} not found in {filename}')
+            return 0
+
     def defPriority(favored_defenses, defense):
         if defense in favored_defenses:
             return "Better Defense"
@@ -96,17 +94,17 @@ class Creature:
                  creature_type=None,
                  vulnerabilities=[]
                  ):
-        self.ac = openData(filename=Creature.statType(role, size, strength), row=level, col="AC",
-                           type=int) + openData(filename="template.csv", row=template, col="AC", type=int)
-        self.hp = openData(filename=Creature.statType(role, size, strength), row=level, col="HP",
-                           type=float) * openData(filename="template.csv", row=template, col="HP", type=float)
+        self.ac = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col="AC",
+                           type=int) + Creature.openData(filename="template.csv", row=template, col="AC", type=int)
+        self.hp = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col="HP",
+                           type=float) * Creature.openData(filename="template.csv", row=template, col="HP", type=float)
         self.initiative = level + \
-            openData(filename="initiative.csv",
+            Creature.openData(filename="initiative.csv",
                      row=initiative_type, col="Modifier", type=int)
-        self.md = openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
-            favored_defenses=favored_defenses, defense="MD"), type=int) + openData(filename="template.csv", row=template, col="MD", type=int)
-        self.pd = openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
-            favored_defenses=favored_defenses, defense="PD"), type=int) + openData(filename="template.csv", row=template, col="PD", type=int)
+        self.md = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
+            favored_defenses=favored_defenses, defense="MD"), type=int) + Creature.openData(filename="template.csv", row=template, col="MD", type=int)
+        self.pd = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
+            favored_defenses=favored_defenses, defense="PD"), type=int) + Creature.openData(filename="template.csv", row=template, col="PD", type=int)
         self.condition_immunities = condition_immunities
         self.creature_type = creature_type
         self.favored_defenses = favored_defenses
@@ -180,9 +178,9 @@ class Attack(Creature):
                  strength=None,
                  template=None,
                  ):
-        self.attack_bonus = openData(filename=Creature.statType(role, size, strength), row=level,
-                                     col="Attack Bonus", type=int) + openData(filename="template.csv", row=template, col="Attack", type=int)
-        self.damage = openData(filename=Creature.statType(
+        self.attack_bonus = Creature.openData(filename=Creature.statType(role, size, strength), row=level,
+                                     col="Attack Bonus", type=int) + Creature.openData(filename="template.csv", row=template, col="Attack", type=int)
+        self.damage = Creature.openData(filename=Creature.statType(
                                role, size, strength), row=level, col="Strike Damage", type=int)
         self.damage_type = f' {attack.get("damage_type", None)}'
         self.defense = attack.get("defense", None)

@@ -1,4 +1,4 @@
-﻿Monster Level,Attack Bonus,Strike Damage,Damage to kill one (HP),AC,Better Defense,Lesser Defense
+﻿Monster Level,Attack Bonus,Strike Damage,HP,AC,Better Defense,Lesser Defense
 0,5,3,5,16,14,10
 1,6,4,7,17,15,11
 2,7,5,9,18,16,12
