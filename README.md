@@ -197,4 +197,8 @@ Lethal Swing: Once per battle, a half-orc can reroll a melee attack and use the 
 
 ### 4. Unit Testing
 
+<!--- https://code.visualstudio.com/docs/python/testing --->
+
 ### 5. GUI
+
+<!--- https://www.geeksforgeeks.org/build-a-basic-form-gui-using-customtkinter-module-in-python/ --->
