@@ -195,12 +195,6 @@ Orcish Command: When a nearby ally of the half-orc commander scores a critical h
 Lethal Swing: Once per battle, a half-orc can reroll a melee attack and use the result it prefers
 ```
 
-### 4. API
+### 4. Unit Testing
 
-### 5. Unit Testing
-
-### 6. GUI
-
-### 7. Containerization
-
-### 8. CI/CD
+### 5. GUI
