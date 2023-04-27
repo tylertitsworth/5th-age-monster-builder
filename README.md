@@ -238,7 +238,7 @@ Afterwards, you can make some CI for your testing to ensure that they run on a n
 name: Run Unit Tests
 
 on:
-    pull_request:
+    push:
 
 jobs:
     unit-tests:
@@ -248,7 +248,7 @@ jobs:
             - name: Install Python 3
               uses: actions/setup-python@v2
               with:
-                  python-version: 3.10
+                  python-version: 3.10.11
             - name: Install dependencies
               run: pip install -U pip -r requirements.txt
             - name: run tests with unittest
