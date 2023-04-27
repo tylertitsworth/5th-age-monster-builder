@@ -197,7 +197,64 @@ Lethal Swing: Once per battle, a half-orc can reroll a melee attack and use the 
 
 ### 4. Unit Testing
 
-<!--- https://code.visualstudio.com/docs/python/testing --->
+For each class, create a test class that inherits from `unittest.TestCase`. Then, create a test suite function for each method in the class. In each test suite create test cases or assertions for each potential input/output of that method.
+
+```python
+# Unit Test for Creature Class
+class Test_TestCreature(unittest.TestCase):
+    # Test Suite for defPriority Method
+    def test_defPriority(self):
+        # Test Case for input (["MD"], "MD"); output "Better Defense"
+        self.assertEqual(Creature.defPriority(["MD"], "MD"), "Better Defense")
+        ...
+    # Test Suite for openData Method
+    def test_openData(self):
+        ...
+```
+
+Ensure the tests are running properly.
+
+```bash
+$ python -m unittest tests/test.py -v
+test_setTriggers (tests.test.Test_TestAttack) ... ok
+test_defPriority (tests.test.Test_TestCreature) ... ok
+test_enumerateList (tests.test.Test_TestCreature) ... ok
+test_openData (tests.test.Test_TestCreature) ... ok
+test_setAbilities (tests.test.Test_TestCreature) ... ok
+test_setAttacks (tests.test.Test_TestCreature) ... ok
+test_statType (tests.test.Test_TestCreature) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.196s
+
+OK
+```
+
+While making each test, you might discover bugs in your code. For example, I discovered that the `Creature.openData` method was not working properly because the `initiative.csv` file was not formatted correctly. I fixed the formatting and then the test passed.
+
+Afterwards, you can make some CI for your testing to ensure that they run on a new pull request. This will ensure that your code is always working properly. For my purposes, a simple GitHub Action is sufficient.
+
+```yaml
+name: Run Unit Tests
+
+on:
+    pull_request:
+
+jobs:
+    unit-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install Python 3
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.10
+            - name: Install dependencies
+              run: pip install -U pip -r requirements.txt
+            - name: run tests with unittest
+              run: python -m unittest tests/test.py -v
+
+```
 
 ### 5. GUI
 
