@@ -258,4 +258,4 @@ jobs:
 
 ### 5. GUI
 
-<!--- https://www.geeksforgeeks.org/build-a-basic-form-gui-using-customtkinter-module-in-python/ --->
+<!--- https://www.pythonguis.com/ --->
