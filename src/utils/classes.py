@@ -1,24 +1,25 @@
 import csv
 
+
 class Creature:
     def openData(filename, row, col, type):
-        with open(f'data/{filename}', newline='', encoding='utf-8-sig') as datafile:
+        with open(f"data/{filename}", newline="", encoding="utf-8-sig") as datafile:
             reader = csv.reader(datafile)
             headings = next(reader)
             colVal = headings.index(col)
             for dataRow in reader:
                 if dataRow[0] == str(row):
                     if type == float:
-                        if dataRow[colVal] == '':
+                        if dataRow[colVal] == "":
                             return 0.0
                         return float(dataRow[colVal])
                     elif type == int:
-                        if dataRow[colVal] == '':
+                        if dataRow[colVal] == "":
                             return 0
                         return int(dataRow[colVal])
                     else:
                         return str(type(dataRow[colVal]))
-            print(f'Error: {row} not found in {filename}')
+            print(f"Error: {row} not found in {filename}")
             return 0
 
     def defPriority(favored_defenses, defense):
@@ -32,22 +33,22 @@ class Creature:
             return "mook_stats.csv"
         sizePower = 0
         match size:
-            case 'Tiny':
+            case "Tiny":
                 sizePower -= 2
-            case 'Small':
+            case "Small":
                 sizePower -= 1
-            case 'Medium':
+            case "Medium":
                 pass
-            case 'Large':
+            case "Large":
                 sizePower += 1
-            case 'Huge':
+            case "Huge":
                 sizePower += 2
         match strength:
-            case 'Normal':
+            case "Normal":
                 pass
-            case 'Double':
+            case "Double":
                 sizePower += 1
-            case 'Triple':
+            case "Triple":
                 sizePower += 2
         if sizePower == 0:
             return "normal_stats.csv"
@@ -61,8 +62,16 @@ class Creature:
     def setAttacks(self, attacks):
         classAttacks = []
         for attack in attacks:
-            classAttacks.append(Attack(attack, level=self.level, role=self.role,
-                                size=self.size, strength=self.strength, template=self.template))
+            classAttacks.append(
+                Attack(
+                    attack,
+                    level=self.level,
+                    role=self.role,
+                    size=self.size,
+                    strength=self.strength,
+                    template=self.template,
+                )
+            )
         return classAttacks
 
     def setAbilities(self, abilities):
@@ -74,37 +83,56 @@ class Creature:
     def enumerateList(self, list, str):
         for i, item in enumerate(list):
             if i:
-                str += ', '
-            str += f'{item}'
+                str += ", "
+            str += f"{item}"
         return str
 
-    def __init__(self,
-                 abilities=[],
-                 attacks=[],
-                 condition_immunities=[],
-                 favored_defenses=[],
-                 immunities=[],
-                 initiative_type=None,
-                 level=None,
-                 name=None,
-                 role=None,
-                 size=None,
-                 strength=None,
-                 template=None,
-                 creature_type=None,
-                 vulnerabilities=[]
-                 ):
-        self.ac = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col="AC",
-                           type=int) + Creature.openData(filename="template.csv", row=template, col="AC", type=int)
-        self.hp = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col="HP",
-                           type=float) * Creature.openData(filename="template.csv", row=template, col="HP", type=float)
-        self.initiative = level + \
-            Creature.openData(filename="initiative.csv",
-                     row=initiative_type, col="Modifier", type=int)
-        self.md = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
-            favored_defenses=favored_defenses, defense="MD"), type=int) + Creature.openData(filename="template.csv", row=template, col="MD", type=int)
-        self.pd = Creature.openData(filename=Creature.statType(role, size, strength), row=level, col=Creature.defPriority(
-            favored_defenses=favored_defenses, defense="PD"), type=int) + Creature.openData(filename="template.csv", row=template, col="PD", type=int)
+    def __init__(
+        self,
+        abilities=[],
+        attacks=[],
+        condition_immunities=[],
+        favored_defenses=[],
+        immunities=[],
+        initiative_type=None,
+        level=None,
+        name=None,
+        role=None,
+        size=None,
+        strength=None,
+        template=None,
+        creature_type=None,
+        vulnerabilities=[],
+    ):
+        self.ac = Creature.openData(
+            filename=Creature.statType(role, size, strength),
+            row=level,
+            col="AC",
+            type=int,
+        ) + Creature.openData(filename="template.csv", row=template, col="AC", type=int)
+        self.hp = Creature.openData(
+            filename=Creature.statType(role, size, strength),
+            row=level,
+            col="HP",
+            type=float,
+        ) * Creature.openData(
+            filename="template.csv", row=template, col="HP", type=float
+        )
+        self.initiative = level + Creature.openData(
+            filename="initiative.csv", row=initiative_type, col="Modifier", type=int
+        )
+        self.md = Creature.openData(
+            filename=Creature.statType(role, size, strength),
+            row=level,
+            col=Creature.defPriority(favored_defenses=favored_defenses, defense="MD"),
+            type=int,
+        ) + Creature.openData(filename="template.csv", row=template, col="MD", type=int)
+        self.pd = Creature.openData(
+            filename=Creature.statType(role, size, strength),
+            row=level,
+            col=Creature.defPriority(favored_defenses=favored_defenses, defense="PD"),
+            type=int,
+        ) + Creature.openData(filename="template.csv", row=template, col="PD", type=int)
         self.condition_immunities = condition_immunities
         self.creature_type = creature_type
         self.favored_defenses = favored_defenses
@@ -121,46 +149,47 @@ class Creature:
         self.abilities = self.setAbilities(abilities)
 
     def __str__(self):
-        creatureStr = f'{self.name}'
-        creatureStr += f'\n{self.size} {self.level} level {self.role} [{self.creature_type}]'
-        creatureStr += f'\nInitiative: +{self.initiative}\n'
+        creatureStr = f"{self.name}"
+        creatureStr += (
+            f"\n{self.size} {self.level} level {self.role} [{self.creature_type}]"
+        )
+        creatureStr += f"\nInitiative: +{self.initiative}\n"
 
         if self.immunities != []:
-            creatureStr += 'Immunities: '
+            creatureStr += "Immunities: "
             Creature.enumerateList(self, self.immunities, creatureStr)
-            creatureStr += '\n'
+            creatureStr += "\n"
         if self.condition_immunities != []:
-            creatureStr += 'Condition Immunities: '
-            Creature.enumerateList(
-                self, self.condition_immunities, creatureStr)
-            creatureStr += '\n'
+            creatureStr += "Condition Immunities: "
+            Creature.enumerateList(self, self.condition_immunities, creatureStr)
+            creatureStr += "\n"
         if self.vulnerabilities != []:
-            creatureStr += 'Vulnerabilities: '
+            creatureStr += "Vulnerabilities: "
             Creature.enumerateList(self, self.vulnerabilities, creatureStr)
-            creatureStr += '\n'
+            creatureStr += "\n"
         for attack in self.attacks:
-            creatureStr += f'{attack}\n'
+            creatureStr += f"{attack}\n"
 
-        creatureStr += f'HP {int(self.hp)} - AC {self.ac}'
-        creatureStr += f'\nMD {self.md} - PD {self.pd}'
+        creatureStr += f"HP {int(self.hp)} - AC {self.ac}"
+        creatureStr += f"\nMD {self.md} - PD {self.pd}"
 
         if self.abilities != []:
             for ability in self.abilities:
-                creatureStr += f'\n{ability}'
+                creatureStr += f"\n{ability}"
 
         return creatureStr
 
 
 class Ability:
     def __init__(self, ability):
-        self.dc = ability.get('dc', None)
-        self.description = ability.get('description', None)
-        self.name = ability.get('name', None)
+        self.dc = ability.get("dc", None)
+        self.description = ability.get("description", None)
+        self.name = ability.get("name", None)
 
     def __str__(self):
         if self.dc == None:
-            return f'{self.name}: {self.description}'
-        return f'{self.name} {self.dc}+: {self.description}'
+            return f"{self.name}: {self.description}"
+        return f"{self.name} {self.dc}+: {self.description}"
 
 
 class Attack(Creature):
@@ -170,18 +199,29 @@ class Attack(Creature):
             classTriggers.append(Trigger(trigger))
         return classTriggers
 
-    def __init__(self,
-                 attack,
-                 level=None,
-                 role=None,
-                 size=None,
-                 strength=None,
-                 template=None,
-                 ):
-        self.attack_bonus = Creature.openData(filename=Creature.statType(role, size, strength), row=level,
-                                     col="Attack Bonus", type=int) + Creature.openData(filename="template.csv", row=template, col="Attack", type=int)
-        self.damage = Creature.openData(filename=Creature.statType(
-                               role, size, strength), row=level, col="Strike Damage", type=int)
+    def __init__(
+        self,
+        attack,
+        level=None,
+        role=None,
+        size=None,
+        strength=None,
+        template=None,
+    ):
+        self.attack_bonus = Creature.openData(
+            filename=Creature.statType(role, size, strength),
+            row=level,
+            col="Attack Bonus",
+            type=int,
+        ) + Creature.openData(
+            filename="template.csv", row=template, col="Attack", type=int
+        )
+        self.damage = Creature.openData(
+            filename=Creature.statType(role, size, strength),
+            row=level,
+            col="Strike Damage",
+            type=int,
+        )
         self.damage_type = f' {attack.get("damage_type", None)}'
         self.defense = attack.get("defense", None)
         self.hit_effect = f', {attack.get("hit_effect", None)}'
@@ -190,19 +230,21 @@ class Attack(Creature):
         self.triggers = self.setTriggers(attack.get("triggers", []))
 
     def __str__(self):
-        attackStr = f'{self.name} +{self.attack_bonus} vs. {self.defense}: {self.damage}'
+        attackStr = (
+            f"{self.name} +{self.attack_bonus} vs. {self.defense}: {self.damage}"
+        )
         if self.damage_type == None:
-            attackStr += f' {self.damage_type}'
-        attackStr += ' damage'
+            attackStr += f" {self.damage_type}"
+        attackStr += " damage"
         if self.hit_effect == None:
-            attackStr += f'{self.hit_effect}'
+            attackStr += f"{self.hit_effect}"
         if self.range == "Ranged":
-            attackStr = f'R: {attackStr}'
+            attackStr = f"R: {attackStr}"
         elif self.range == "Close":
-            attackStr = f'C: {attackStr}'
+            attackStr = f"C: {attackStr}"
         if self.triggers != None:
             for trigger in self.triggers:
-                attackStr += f'\n{trigger}'
+                attackStr += f"\n{trigger}"
         return attackStr
 
 
@@ -213,10 +255,10 @@ class Trigger:
         self.recharge = trigger.get("recharge", None)
 
     def __str__(self):
-        str = 'Natural '
+        str = "Natural "
         if self.condition != None:
             if isinstance(self.condition, int):
-                str += f'{self.condition}+'
+                str += f"{self.condition}+"
             else:
-                str += f'{self.condition}'
-        return f'{str}: {self.description}'
+                str += f"{self.condition}"
+        return f"{str}: {self.description}"

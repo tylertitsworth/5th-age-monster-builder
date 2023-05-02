@@ -259,3 +259,7 @@ jobs:
 ### 5. GUI
 
 <!--- https://www.pythonguis.com/ --->
+
+### 6. Packaging
+
+<!--- https://www.pythonguis.com/tutorials/packaging-pyqt6-applications-windows-pyinstaller/ --->
