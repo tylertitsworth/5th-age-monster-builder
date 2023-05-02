@@ -228,9 +228,9 @@ class Attack(Creature):
         attackStr = (
             f"{self.name} +{self.attack_bonus} vs. {self.defense}: {self.damage}"
         )
-        if self.damage_type == "" or self.damage_type == None:
-            attackStr += f" {self.damage_type}"
-        attackStr += " damage"
+        if self.damage_type != "" or self.damage_type != None:
+            attackStr += f"{self.damage_type} "
+        attackStr += "damage"
         if self.hit_effect == None or self.hit_effect == "":
             attackStr += f"{self.hit_effect}"
         if self.range == "Ranged":
