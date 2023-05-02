@@ -339,7 +339,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 )
                 self.condition_descriptions[n].hide()
                 self.attackGridLayout.addWidget(
-                    self.condition_descriptions[n], n, 6, 2, 1
+                    self.condition_descriptions[n], n, 6, 1, 1
                 )
 
                 self.condition_buttons.append(
@@ -588,10 +588,70 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                     else:
                         pass
             else:
-                pass
+                if idx % 2 == 0 and self.attackRows[idx - 2] == "Show" and self.attackRows[idx + 1] == "Show":
+                    if self.condition_recharges[idx + 1].text() == "":  # No Recharge
+                        attacks[idx - 2]["triggers"].append(
+                            {
+                                "condition": self.condition_conditions[
+                                    idx + 1
+                                ].text(),
+                                "description": self.condition_descriptions[
+                                    idx + 1
+                                ].text(),
+                            }
+                        )
+                    else:  # Yes Recharge
+                        attacks[idx - 2]["triggers"].append(
+                            {
+                                "condition": self.condition_conditions[
+                                    idx + 1
+                                ].text(),
+                                "description": self.condition_descriptions[
+                                    idx + 1
+                                ].text(),
+                                "recharge": self.condition_recharges[
+                                    idx + 1
+                                ].text(),
+                            }
+                        )
+                if idx % 2 == 0 and idx >= 4 and self.attackRows[idx - 4] == "Show" and self.attackRows[idx + 1] == "Show":
+                    if self.condition_recharges[idx + 1].text() == "":  # No Recharge
+                        attacks[idx - 4]["triggers"].append(
+                            {
+                                "condition": self.condition_conditions[
+                                    idx + 1
+                                ].text(),
+                                "description": self.condition_descriptions[
+                                    idx + 1
+                                ].text(),
+                            }
+                        )
+                    else:  # Yes Recharge
+                        attacks[idx - 4]["triggers"].append(
+                            {
+                                "condition": self.condition_conditions[
+                                    idx + 1
+                                ].text(),
+                                "description": self.condition_descriptions[
+                                    idx + 1
+                                ].text(),
+                                "recharge": self.condition_recharges[
+                                    idx + 1
+                                ].text(),
+                            }
+                        )
 
-        # TODO: Print to DisplayBox
         # TODO: Input Handling
+        # TODO: Unit Tests
+            # setupAbilities
+            # setupAttacks
+            # addAbility
+            # addAttack
+            # addCondition
+            # removeAbility
+            # removeAttack
+            # removeCondition
+            # generateCreature
 
         self.displayOutput.clear()
 
