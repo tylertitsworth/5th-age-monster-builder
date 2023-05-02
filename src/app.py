@@ -21,6 +21,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
         self.attack_label1s = []
         self.attack_labels = []
         self.attack_names = []
+        self.attack_ranges = []
         self.attack_types = []
 
         self.abilityRows = ["Hide", "Hide", "Hide", "Hide", "Hide"]
@@ -33,150 +34,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
         self.addAttackButton.clicked.connect(self.addAttack)
         self.generateButton.clicked.connect(self.generateCreature)
         self.resetButton.clicked.connect(self.displayOutput.clear)
-
-    def setupAttacks(self):
-        for n, i in enumerate(self.attackRows):
-            self.attack_names.append(
-                QtWidgets.QLineEdit(parent=self.attackGridLayoutWidget)
-            )
-            self.attack_names[n].setObjectName(f"attack_names{[n]}")
-            self.attack_names[n].setText(
-                QtCore.QCoreApplication.translate("role", "Attack Name")
-            )
-            self.attack_names[n].hide()
-            self.attackGridLayout.addWidget(self.attack_names[n], n, 0, 1, 1)
-
-            self.attack_labels.append(
-                QtWidgets.QLabel(parent=self.attackGridLayoutWidget)
-            )
-            self.attack_labels[n].setLayoutDirection(
-                QtCore.Qt.LayoutDirection.LeftToRight
-            )
-            self.attack_labels[n].setAlignment(
-                QtCore.Qt.AlignmentFlag.AlignLeading
-                | QtCore.Qt.AlignmentFlag.AlignLeft
-                | QtCore.Qt.AlignmentFlag.AlignVCenter
-            )
-            self.attack_labels[n].setObjectName(f"attack_labels{[n]}")
-            self.attack_labels[n].setText(
-                QtCore.QCoreApplication.translate("role", "vs.")
-            )
-            self.attack_labels[n].hide()
-            self.attackGridLayout.addWidget(self.attack_labels[n], n, 1, 1, 1)
-
-            self.attack_defenses.append(
-                QtWidgets.QComboBox(parent=self.attackGridLayoutWidget)
-            )
-            self.attack_defenses[n].setObjectName(f"attack_defenses{[n]}")
-            self.attack_defenses[n].addItem("")
-            self.attack_defenses[n].addItem("")
-            self.attack_defenses[n].addItem("")
-            self.attack_defenses[n].setCurrentText(
-                QtCore.QCoreApplication.translate("role", "AC")
-            )
-            self.attack_defenses[n].setItemText(
-                0, QtCore.QCoreApplication.translate("role", "AC")
-            )
-            self.attack_defenses[n].setItemText(
-                1, QtCore.QCoreApplication.translate("role", "PD")
-            )
-            self.attack_defenses[n].setItemText(
-                2, QtCore.QCoreApplication.translate("role", "MD")
-            )
-            self.attack_defenses[n].hide()
-            self.attackGridLayout.addWidget(self.attack_defenses[n], n, 2, 1, 1)
-
-            self.attack_label1s.append(
-                QtWidgets.QLabel(parent=self.attackGridLayoutWidget)
-            )
-            self.attack_label1s[n].setLayoutDirection(
-                QtCore.Qt.LayoutDirection.LeftToRight
-            )
-            self.attack_label1s[n].setAlignment(
-                QtCore.Qt.AlignmentFlag.AlignLeading
-                | QtCore.Qt.AlignmentFlag.AlignLeft
-                | QtCore.Qt.AlignmentFlag.AlignVCenter
-            )
-            self.attack_label1s[n].setObjectName(f"attack_label1s{[n]}")
-            self.attack_label1s[n].setText(
-                QtCore.QCoreApplication.translate("role", ":")
-            )
-            self.attack_label1s[n].hide()
-            self.attackGridLayout.addWidget(self.attack_label1s[n], n, 3, 1, 1)
-
-            self.attack_types.append(
-                QtWidgets.QComboBox(parent=self.attackGridLayoutWidget)
-            )
-            self.attack_types[n].setCurrentText("")
-            self.attack_types[n].setObjectName(f"attack_types{[n]}")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].setItemText(0, "")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].addItem("")
-            self.attack_types[n].setItemText(
-                1, QtCore.QCoreApplication.translate("role", "Acid")
-            )
-            self.attack_types[n].setItemText(
-                2, QtCore.QCoreApplication.translate("role", "Cold")
-            )
-            self.attack_types[n].setItemText(
-                3, QtCore.QCoreApplication.translate("role", "Fire")
-            )
-            self.attack_types[n].setItemText(
-                4, QtCore.QCoreApplication.translate("role", "Force")
-            )
-            self.attack_types[n].setItemText(
-                5, QtCore.QCoreApplication.translate("role", "Lightning")
-            )
-            self.attack_types[n].setItemText(
-                6, QtCore.QCoreApplication.translate("role", "Necrotic")
-            )
-            self.attack_types[n].setItemText(
-                7, QtCore.QCoreApplication.translate("role", "Poison")
-            )
-            self.attack_types[n].setItemText(
-                8, QtCore.QCoreApplication.translate("role", "Psychic")
-            )
-            self.attack_types[n].setItemText(
-                9, QtCore.QCoreApplication.translate("role", "Radiant")
-            )
-            self.attack_types[n].setItemText(
-                10, QtCore.QCoreApplication.translate("role", "Thunder")
-            )
-            self.attack_types[n].hide()
-            self.attackGridLayout.addWidget(self.attack_types[n], n, 4, 1, 1)
-
-            self.attack_descriptions.append(
-                QtWidgets.QLineEdit(parent=self.attackGridLayoutWidget)
-            )
-            self.attack_descriptions[n].setObjectName(f"attack_descriptions{[n]}")
-            self.attack_descriptions[n].setText(
-                QtCore.QCoreApplication.translate("role", "Description")
-            )
-            self.attack_descriptions[n].hide()
-            self.attackGridLayout.addWidget(self.attack_descriptions[n], n, 5, 1, 1)
-
-            self.attack_buttons.append(
-                QtWidgets.QPushButton(parent=self.attackGridLayoutWidget)
-            )
-            self.attack_buttons[n].setObjectName(f"attack_button_{n}")
-            self.attack_buttons[n].setText(
-                QtCore.QCoreApplication.translate("role", "-")
-            )
-            self.attackGridLayout.addWidget(self.attack_buttons[n], n, 6, 1, 1)
-            self.attack_buttons[n].row = n
-            self.attack_buttons[n].hide()
-            self.attack_buttons[n].clicked.connect(self.removeAttack)
-            if n == 0:
-                self.addAttack()
 
     def setupAbilities(self):
         for n, i in enumerate(self.abilityRows):
@@ -238,6 +95,171 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
             self.ability_buttons[n].hide()
             self.ability_buttons[n].clicked.connect(self.removeAbility)
 
+    def setupAttacks(self):
+        for n, i in enumerate(self.attackRows):
+            self.attack_ranges.append(
+                QtWidgets.QComboBox(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_ranges[n].setObjectName(f"attack_ranges{[n]}")
+            self.attack_ranges[n].addItem("")
+            self.attack_ranges[n].addItem("")
+            self.attack_ranges[n].addItem("")
+            self.attack_ranges[n].setCurrentText(
+                QtCore.QCoreApplication.translate("role", "Melee")
+            )
+            self.attack_ranges[n].setItemText(
+                0, QtCore.QCoreApplication.translate("role", "Melee")
+            )
+            self.attack_ranges[n].setItemText(
+                1, QtCore.QCoreApplication.translate("role", "Ranged")
+            )
+            self.attack_ranges[n].setItemText(
+                2, QtCore.QCoreApplication.translate("role", "Close")
+            )
+            self.attack_ranges[n].hide()
+            self.attackGridLayout.addWidget(self.attack_ranges[n], n, 0, 1, 1)
+
+            self.attack_names.append(
+                QtWidgets.QLineEdit(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_names[n].setObjectName(f"attack_names{[n]}")
+            self.attack_names[n].setText(
+                QtCore.QCoreApplication.translate("role", "Attack Name")
+            )
+            self.attack_names[n].hide()
+            self.attackGridLayout.addWidget(self.attack_names[n], n, 1, 1, 1)
+
+            self.attack_labels.append(
+                QtWidgets.QLabel(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_labels[n].setLayoutDirection(
+                QtCore.Qt.LayoutDirection.LeftToRight
+            )
+            self.attack_labels[n].setAlignment(
+                QtCore.Qt.AlignmentFlag.AlignLeading
+                | QtCore.Qt.AlignmentFlag.AlignLeft
+                | QtCore.Qt.AlignmentFlag.AlignVCenter
+            )
+            self.attack_labels[n].setObjectName(f"attack_labels{[n]}")
+            self.attack_labels[n].setText(
+                QtCore.QCoreApplication.translate("role", "vs.")
+            )
+            self.attack_labels[n].hide()
+            self.attackGridLayout.addWidget(self.attack_labels[n], n, 2, 1, 1)
+
+            self.attack_defenses.append(
+                QtWidgets.QComboBox(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_defenses[n].setObjectName(f"attack_defenses{[n]}")
+            self.attack_defenses[n].addItem("")
+            self.attack_defenses[n].addItem("")
+            self.attack_defenses[n].addItem("")
+            self.attack_defenses[n].setCurrentText(
+                QtCore.QCoreApplication.translate("role", "AC")
+            )
+            self.attack_defenses[n].setItemText(
+                0, QtCore.QCoreApplication.translate("role", "AC")
+            )
+            self.attack_defenses[n].setItemText(
+                1, QtCore.QCoreApplication.translate("role", "PD")
+            )
+            self.attack_defenses[n].setItemText(
+                2, QtCore.QCoreApplication.translate("role", "MD")
+            )
+            self.attack_defenses[n].hide()
+            self.attackGridLayout.addWidget(self.attack_defenses[n], n, 3, 1, 1)
+
+            self.attack_label1s.append(
+                QtWidgets.QLabel(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_label1s[n].setLayoutDirection(
+                QtCore.Qt.LayoutDirection.LeftToRight
+            )
+            self.attack_label1s[n].setAlignment(
+                QtCore.Qt.AlignmentFlag.AlignLeading
+                | QtCore.Qt.AlignmentFlag.AlignLeft
+                | QtCore.Qt.AlignmentFlag.AlignVCenter
+            )
+            self.attack_label1s[n].setObjectName(f"attack_label1s{[n]}")
+            self.attack_label1s[n].setText(
+                QtCore.QCoreApplication.translate("role", ":")
+            )
+            self.attack_label1s[n].hide()
+            self.attackGridLayout.addWidget(self.attack_label1s[n], n, 4, 1, 1)
+
+            self.attack_types.append(
+                QtWidgets.QComboBox(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_types[n].setCurrentText("")
+            self.attack_types[n].setObjectName(f"attack_types{[n]}")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].setItemText(0, "")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].addItem("")
+            self.attack_types[n].setItemText(
+                1, QtCore.QCoreApplication.translate("role", "Acid")
+            )
+            self.attack_types[n].setItemText(
+                2, QtCore.QCoreApplication.translate("role", "Cold")
+            )
+            self.attack_types[n].setItemText(
+                3, QtCore.QCoreApplication.translate("role", "Fire")
+            )
+            self.attack_types[n].setItemText(
+                4, QtCore.QCoreApplication.translate("role", "Force")
+            )
+            self.attack_types[n].setItemText(
+                5, QtCore.QCoreApplication.translate("role", "Lightning")
+            )
+            self.attack_types[n].setItemText(
+                6, QtCore.QCoreApplication.translate("role", "Necrotic")
+            )
+            self.attack_types[n].setItemText(
+                7, QtCore.QCoreApplication.translate("role", "Poison")
+            )
+            self.attack_types[n].setItemText(
+                8, QtCore.QCoreApplication.translate("role", "Psychic")
+            )
+            self.attack_types[n].setItemText(
+                9, QtCore.QCoreApplication.translate("role", "Radiant")
+            )
+            self.attack_types[n].setItemText(
+                10, QtCore.QCoreApplication.translate("role", "Thunder")
+            )
+            self.attack_types[n].hide()
+            self.attackGridLayout.addWidget(self.attack_types[n], n, 5, 1, 1)
+
+            self.attack_descriptions.append(
+                QtWidgets.QLineEdit(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_descriptions[n].setObjectName(f"attack_descriptions{[n]}")
+            self.attack_descriptions[n].setText(
+                QtCore.QCoreApplication.translate("role", "Description")
+            )
+            self.attack_descriptions[n].hide()
+            self.attackGridLayout.addWidget(self.attack_descriptions[n], n, 6, 1, 1)
+
+            self.attack_buttons.append(
+                QtWidgets.QPushButton(parent=self.attackGridLayoutWidget)
+            )
+            self.attack_buttons[n].setObjectName(f"attack_button_{n}")
+            self.attack_buttons[n].setText(
+                QtCore.QCoreApplication.translate("role", "-")
+            )
+            self.attackGridLayout.addWidget(self.attack_buttons[n], n, 7, 1, 1)
+            self.attack_buttons[n].row = n
+            self.attack_buttons[n].hide()
+            self.attack_buttons[n].clicked.connect(self.removeAttack)
+            if n == 0:
+                self.addAttack()
 
     def addAbility(self):
         for idx, row in enumerate(self.abilityRows):
@@ -258,6 +280,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 self.attack_defenses[idx].show()
                 self.attack_label1s[idx].show()
                 self.attack_labels[idx].show()
+                self.attack_ranges[idx].show()
                 self.attack_types[idx].show()
                 self.attack_descriptions[idx].show()
                 self.attack_buttons[idx].show()
@@ -277,25 +300,47 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
         self.attack_defenses[self.sender().row].hide()
         self.attack_label1s[self.sender().row].hide()
         self.attack_labels[self.sender().row].hide()
+        self.attack_ranges[self.sender().row].hide()
         self.attack_types[self.sender().row].hide()
         self.attack_descriptions[self.sender().row].hide()
         self.attack_buttons[self.sender().row].hide()
 
     def generateCreature(self):
-        # test = Creature(name="Half-Orc Commander",
-        #                 abilities=[{"name": "Orcish Command", "description": "When a nearby ally of the half-orc commander scores a critical hit, that ally can roll a save against a save ends effect as a free action."}, {"name": "Lethal Swing", "description": "Once per battle, a half-orc can reroll a melee attack and use the result it prefers"}],
-        #                 attacks=[{"name": "Jagged Longsword", "defense": "AC", "triggers": [{"condition": "even hit", "description": "One nearby lower-level mook makes an attack as a free action."}]}, {"name": "Thrown Javelin", "defense": "AC", "range": "Ranged", "triggers": [{"condition": "even hit", "description": "The half-orc commander gains 20 temporary hit points."}]}],
-        #                 creature_type="Humanoid",
-        #                 favored_defenses=["PD"],
-        #                 initiative_type="Fast",
-        #                 level=8,
-        #                 role="Leader",
-        #                 size="Medium",
-        #                 strength="Normal",
-        #                 template="Leader"
-        # )
-        # print(test)
-        pass
+        abilities = []
+        attacks = []
+        for idx, i in enumerate(self.ability_names):
+            if self.abilityRows[idx] == "Show":
+                if self.ability_dcs[idx]:
+                    abilities.append({"name": self.ability_names[idx].text(), "description": self.ability_descriptions[idx].text(), "dc": self.ability_dcs[idx].text()})
+                else:
+                    abilities.append({"name": self.ability_names[idx].text(), "description": self.ability_descriptions[idx].text()})
+
+        for idx, i in enumerate(self.attack_names):
+            if self.attackRows[idx] == "Show":
+                if self.attack_types[idx].currentText() == "":
+                    attacks.append({"name": self.attack_names[idx].text(), "defense": self.attack_defenses[idx].currentText(), "description": self.attack_descriptions[idx].text(), "range": self.attack_ranges[idx].currentText()})
+                else:
+                    attacks.append({"name": self.attack_names[idx].text(), "defense": self.attack_defenses[idx].currentText(), "description": self.attack_descriptions[idx].text(), "type": self.attack_types[idx].currentText(), "range": self.attack_ranges[idx].currentText()})
+
+        # TODO: Condition Handling
+        # TODO: Print to DisplayBox
+        # TODO: Input Handling
+
+        test = Creature(name=self.name.text(),
+                        abilities=abilities,
+                        attacks=attacks, # [{"name": "Jagged Longsword", "defense": "AC", "triggers": [{"condition": "even hit", "description": "One nearby lower-level mook makes an attack as a free action."}]}, {"name": "Thrown Javelin", "defense": "AC", "range": "Ranged", "triggers": [{"condition": "even hit", "description": "The half-orc commander gains 20 temporary hit points."}]}],
+                        creature_type=self.type.currentText(),
+                        favored_defenses=[i.text() for i in self.favored_defense.selectedItems()],
+                        immunities=[i.text() for i in self.immunities.selectedItems()],
+                        initiative_type=self.initiative_modifier.currentText(),
+                        level=int(self.level.currentText()),
+                        role=self.role.currentText(),
+                        size=self.creatureSize.currentText(),
+                        strength=self.strength.currentText(),
+                        template=self.template.currentText(),
+                        vulnerabilities=[i.text() for i in self.vulnerabilities.selectedItems()]
+        )
+        print(test)
 
 
 if __name__ == "__main__":
@@ -303,7 +348,8 @@ if __name__ == "__main__":
 
     window = MainWindow()
 
-    qtmodern.styles.dark(app)
-    mw = qtmodern.windows.ModernWindow(window)
-    mw.show()
+    #qtmodern.styles.dark(app)
+    #mw = qtmodern.windows.ModernWindow(window)
+    #mw.show()
+    window.show()
     app.exec()

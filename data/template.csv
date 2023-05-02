@@ -1,8 +1,8 @@
 ﻿Template,Attack,HP,AC,PD,MD
-None,,,,,
+None,,1.0,,,
 Scrapper,3,0.7,,,
-Offensive,3,,-3,-3,-3
-Oaf,-3,,3,1,-1
+Offensive,3,1.0,-3,-3,-3
+Oaf,-3,1.0,3,1,-1
 Defensive,,0.7,3,,
 Lunk,,1.4,-3,-3,-3
 Brittle,,0.7,-3,,

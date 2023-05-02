@@ -91,7 +91,6 @@ class Creature:
         self,
         abilities=[],
         attacks=[],
-        condition_immunities=[],
         favored_defenses=[],
         immunities=[],
         initiative_type=None,
@@ -133,7 +132,6 @@ class Creature:
             col=Creature.defPriority(favored_defenses=favored_defenses, defense="PD"),
             type=int,
         ) + Creature.openData(filename="template.csv", row=template, col="PD", type=int)
-        self.condition_immunities = condition_immunities
         self.creature_type = creature_type
         self.favored_defenses = favored_defenses
         self.immunities = immunities
@@ -154,18 +152,15 @@ class Creature:
             f"\n{self.size} {self.level} level {self.role} [{self.creature_type}]"
         )
         creatureStr += f"\nInitiative: +{self.initiative}\n"
-
         if self.immunities != []:
             creatureStr += "Immunities: "
-            Creature.enumerateList(self, self.immunities, creatureStr)
-            creatureStr += "\n"
-        if self.condition_immunities != []:
-            creatureStr += "Condition Immunities: "
-            Creature.enumerateList(self, self.condition_immunities, creatureStr)
+            creatureStr = Creature.enumerateList(self, self.immunities, creatureStr)
             creatureStr += "\n"
         if self.vulnerabilities != []:
             creatureStr += "Vulnerabilities: "
-            Creature.enumerateList(self, self.vulnerabilities, creatureStr)
+            creatureStr = Creature.enumerateList(
+                self, self.vulnerabilities, creatureStr
+            )
             creatureStr += "\n"
         for attack in self.attacks:
             creatureStr += f"{attack}\n"
@@ -187,7 +182,7 @@ class Ability:
         self.name = ability.get("name", None)
 
     def __str__(self):
-        if self.dc == None:
+        if self.dc == "" or self.dc == None:
             return f"{self.name}: {self.description}"
         return f"{self.name} {self.dc}+: {self.description}"
 
@@ -233,10 +228,10 @@ class Attack(Creature):
         attackStr = (
             f"{self.name} +{self.attack_bonus} vs. {self.defense}: {self.damage}"
         )
-        if self.damage_type == None:
+        if self.damage_type == "" or self.damage_type == None:
             attackStr += f" {self.damage_type}"
         attackStr += " damage"
-        if self.hit_effect == None:
+        if self.hit_effect == None or self.hit_effect == "":
             attackStr += f"{self.hit_effect}"
         if self.range == "Ranged":
             attackStr = f"R: {attackStr}"
