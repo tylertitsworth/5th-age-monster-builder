@@ -453,4 +453,132 @@ python .\src\app.py
 
 ### 6. Packaging
 
-<!--- https://www.pythonguis.com/tutorials/packaging-pyqt6-applications-windows-pyinstaller/ --->
+Write a script to package the application into a single zip folder with an executable. I had to copy the data folder to go with the application since it is referenced during the application's runtime.
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install -U pip
+python -m pip install -r requirements.txt
+pyinstaller .\src\app.py --onefile --clean --noconsole
+cp -r data dist\data
+Compress-Archive -LiteralPath dist -DestinationPath 5th-age-monster-builder.zip
+```
+
+```powershell
+❯ .\build.ps1
+Requirement already satisfied: pip in d:\dev\5th-age-monster-builder\venv\lib\site-packages (22.3.1)
+Collecting pip
+  Using cached pip-23.1.2-py3-none-any.whl (2.1 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 22.3.1
+    Uninstalling pip-22.3.1:
+      Successfully uninstalled pip-22.3.1
+Successfully installed pip-23.1.2
+Collecting PyInstaller (from -r requirements.txt (line 1))
+  Using cached pyinstaller-5.10.1-py3-none-win_amd64.whl (1.3 MB)
+Collecting pyinstaller-hooks-contrib (from -r requirements.txt (line 2))
+  Using cached pyinstaller_hooks_contrib-2023.2-py2.py3-none-any.whl (261 kB)
+Collecting PyQt6 (from -r requirements.txt (line 3))
+  Using cached PyQt6-6.5.0-1-cp37-abi3-win_amd64.whl (6.5 MB)
+Collecting PyQt6-tools (from -r requirements.txt (line 4))
+  Using cached pyqt6_tools-6.4.2.3.3-py3-none-any.whl (29 kB)
+Requirement already satisfied: setuptools>=42.0.0 in d:\dev\5th-age-monster-builder\venv\lib\site-packages (from PyInstaller->-r requirements.txt (line 1)) (65.5.0)
+Collecting altgraph (from PyInstaller->-r requirements.txt (line 1))
+  Using cached altgraph-0.17.3-py2.py3-none-any.whl (21 kB)
+Collecting pefile>=2022.5.30 (from PyInstaller->-r requirements.txt (line 1))
+  Using cached pefile-2023.2.7-py3-none-any.whl (71 kB)
+Collecting pywin32-ctypes>=0.2.0 (from PyInstaller->-r requirements.txt (line 1))
+  Using cached pywin32_ctypes-0.2.0-py2.py3-none-any.whl (28 kB)
+Collecting PyQt6-sip<14,>=13.4 (from PyQt6->-r requirements.txt (line 3))
+  Using cached PyQt6_sip-13.5.1-cp311-cp311-win_amd64.whl (72 kB)
+Collecting PyQt6-Qt6>=6.5.0 (from PyQt6->-r requirements.txt (line 3))
+  Using cached PyQt6_Qt6-6.5.0-py3-none-win_amd64.whl (58.7 MB)
+Collecting click (from PyQt6-tools->-r requirements.txt (line 4))
+  Using cached click-8.1.3-py3-none-any.whl (96 kB)
+Collecting PyQt6 (from -r requirements.txt (line 3))
+  Using cached PyQt6-6.4.2-cp37-abi3-win_amd64.whl (6.4 MB)
+Collecting pyqt6-plugins<6.4.2.3,>=6.4.2.2.2 (from PyQt6-tools->-r requirements.txt (line 4))
+  Using cached pyqt6_plugins-6.4.2.2.3-cp311-cp311-win_amd64.whl (72 kB)
+Collecting python-dotenv (from PyQt6-tools->-r requirements.txt (line 4))
+  Using cached python_dotenv-1.0.0-py3-none-any.whl (19 kB)
+Collecting PyQt6-Qt6>=6.4.0 (from PyQt6->-r requirements.txt (line 3))
+  Using cached PyQt6_Qt6-6.4.3-py3-none-win_amd64.whl (57.5 MB)
+Collecting qt6-tools<6.4.3.2,>=6.4.3.1.2 (from pyqt6-plugins<6.4.2.3,>=6.4.2.2.2->PyQt6-tools->-r requirements.txt (line 4))
+  Using cached qt6_tools-6.4.3.1.3-py3-none-any.whl (13 kB)
+Collecting colorama (from click->PyQt6-tools->-r requirements.txt (line 4))
+  Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting qt6-applications<6.4.3.3,>=6.4.3.2.2 (from qt6-tools<6.4.3.2,>=6.4.3.1.2->pyqt6-plugins<6.4.2.3,>=6.4.2.2.2->PyQt6-tools->-r requirements.txt (line 4))
+  Using cached qt6_applications-6.4.3.2.3-py3-none-win_amd64.whl (71.3 MB)
+Installing collected packages: pywin32-ctypes, PyQt6-Qt6, altgraph, qt6-applications, python-dotenv, PyQt6-sip, pyinstaller-hooks-contrib, pefile, colorama, PyQt6, PyInstaller, click, qt6-tools, pyqt6-plugins, PyQt6-tools
+Successfully installed PyInstaller-5.10.1 PyQt6-6.4.2 PyQt6-Qt6-6.4.3 PyQt6-sip-13.5.1 PyQt6-tools-6.4.2.3.3 altgraph-0.17.3 click-8.1.3 colorama-0.4.6 pefile-2023.2.7 pyinstaller-hooks-contrib-2023.2 pyqt6-plugins-6.4.2.2.3 python-dotenv-1.0.0 pywin32-ctypes-0.2.0 qt6-applications-6.4.3.2.3 qt6-tools-6.4.3.1.3
+409 INFO: PyInstaller: 5.10.1
+409 INFO: Python: 3.11.3
+416 INFO: Platform: Windows-10-10.0.22621-SP0
+417 INFO: wrote D:\DEV\5th-age-monster-builder\app.spec
+421 INFO: UPX is not available.
+421 INFO: Removing temporary files and cleaning cache in C:\Users\titsw\AppData\Local\pyinstaller
+438 INFO: Extending PYTHONPATH with paths
+['D:\\DEV\\5th-age-monster-builder\\src']
+656 INFO: checking Analysis
+657 INFO: Building Analysis because Analysis-00.toc is non existent
+657 INFO: Initializing module dependency graph...
+658 INFO: Caching module graph hooks...
+675 INFO: Analyzing base_library.zip ...
+2032 INFO: Loading module hook 'hook-heapq.py' from 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks'...
+2093 INFO: Loading module hook 'hook-encodings.py' from 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks'...
+3106 INFO: Loading module hook 'hook-pickle.py' from 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks'...
+4202 INFO: Caching module dependency graph...
+4268 INFO: running Analysis Analysis-00.toc
+4271 INFO: Adding Microsoft.Windows.Common-Controls to dependent assemblies of final executable
+  required by C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.1008.0_x64__qbz5n2kfra8p0\python.exe
+4283 WARNING: lib not found: api-ms-win-appmodel-runtime-l1-1-0.dll dependency of C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.1008.0_x64__qbz5n2kfra8p0\python.exe
+4316 INFO: Analyzing D:\DEV\5th-age-monster-builder\src\app.py
+4360 INFO: Loading module hook 'hook-PyQt6.py' from 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks'...
+4574 INFO: Processing module hooks...
+4598 INFO: Loading module hook 'hook-PyQt6.QtCore.py' from 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks'...
+4726 INFO: Loading module hook 'hook-PyQt6.QtGui.py' from 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks'...
+4840 INFO: Loading module hook 'hook-PyQt6.QtWidgets.py' from 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks'...
+4945 INFO: Looking for ctypes DLLs
+4951 INFO: Analyzing run-time hooks ...
+4953 INFO: Including run-time hook 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py'
+4954 INFO: Including run-time hook 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pyqt6.py'
+4955 INFO: Including run-time hook 'D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py'
+4958 INFO: Looking for dynamic libraries
+233 INFO: Extra DLL search directories (AddDllDirectory): ['D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyQt6\\Qt6\\bin']
+233 INFO: Extra DLL search directories (PATH): ['D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyQt6\\Qt6\\bin', 'D:\\DEV\\5th-age-monster-builder\\venv\\Scripts', 'C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common', 'C:\\WINDOWS\\system32', 'C:\\WINDOWS', 'C:\\WINDOWS\\System32\\Wbem', 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\', 'C:\\WINDOWS\\System32\\OpenSSH\\', 'C:\\Program Files\\Microsoft VS Code\\bin', 'C:\\ProgramData\\chocolatey\\bin', 'C:\\Program Files\\dotnet\\', 'C:\\Program Files\\Git\\cmd', 'C:\\Program Files\\Git\\mingw64\\bin', 'C:\\Program Files\\Git\\usr\\bin', 'C:\\Program Files\\Docker\\Docker\\resources\\bin', 'C:\\Program Files\\1Password CLI', 'C:\\Users\\titsw\\AppData\\Local\\Microsoft\\WindowsApps']
+597 WARNING: lib not found: api-ms-win-shcore-scaling-l1-1-1.dll dependency of D:\DEV\5th-age-monster-builder\venv\Lib\site-packages\PyQt6\Qt6\plugins\platforms\qwindows.dll
+6015 INFO: Looking for eggs
+6015 INFO: Using Python library C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.1008.0_x64__qbz5n2kfra8p0\python311.dll
+6016 INFO: Found binding redirects:
+[]
+6017 INFO: Warnings written to D:\DEV\5th-age-monster-builder\build\app\warn-app.txt                                                                                                                                                                                                                             6029 INFO: Graph cross-reference written to D:\DEV\5th-age-monster-builder\build\app\xref-app.html                                                                                                                                                                                                               6055 INFO: checking PYZ                                                                                                                                                                                                                                                                                          6055 INFO: Building PYZ because PYZ-00.toc is non existent                                                                                                                                                                                                                                                       6056 INFO: Building PYZ (ZlibArchive) D:\DEV\5th-age-monster-builder\build\app\PYZ-00.pyz                                                                                                                                                                                                                        
+6241 INFO: Building PYZ (ZlibArchive) D:\DEV\5th-age-monster-builder\build\app\PYZ-00.pyz completed successfully.
+6251 INFO: checking PKG
+6251 INFO: Building PKG because PKG-00.toc is non existent
+6252 INFO: Building PKG (CArchive) app.pkg
+14090 INFO: Building PKG (CArchive) app.pkg completed successfully.
+14092 INFO: Bootloader D:\DEV\5th-age-monster-builder\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+14092 INFO: checking EXE
+14092 INFO: Building EXE because EXE-00.toc is non existent
+14092 INFO: Building EXE from EXE-00.toc
+14092 INFO: Copying bootloader EXE to D:\DEV\5th-age-monster-builder\dist\app.exe.notanexecutable
+14136 INFO: Copying icon to EXE
+14139 INFO: Copying icons from ['D:\\DEV\\5th-age-monster-builder\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\images\\icon-windowed.ico']
+14159 INFO: Writing RT_GROUP_ICON 0 resource with 104 bytes
+14159 INFO: Writing RT_ICON 1 resource with 3752 bytes
+14159 INFO: Writing RT_ICON 2 resource with 2216 bytes
+14160 INFO: Writing RT_ICON 3 resource with 1384 bytes
+14160 INFO: Writing RT_ICON 4 resource with 38188 bytes
+14160 INFO: Writing RT_ICON 5 resource with 9640 bytes
+14160 INFO: Writing RT_ICON 6 resource with 4264 bytes
+14160 INFO: Writing RT_ICON 7 resource with 1128 bytes
+14161 INFO: Copying 0 resources to EXE
+14161 INFO: Embedding manifest in EXE
+14162 INFO: Updating manifest in D:\DEV\5th-age-monster-builder\dist\app.exe.notanexecutable
+14186 INFO: Updating resource type 24 name 1 language 0
+14188 INFO: Appending PKG archive to EXE
+14206 INFO: Fixing EXE headers
+17506 INFO: Building EXE from EXE-00.toc completed successfully.
+```

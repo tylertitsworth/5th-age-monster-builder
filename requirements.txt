@@ -1,2 +1,4 @@
+PyInstaller
+pyinstaller-hooks-contrib
 PyQt6
 PyQt6-tools
