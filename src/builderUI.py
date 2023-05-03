@@ -228,7 +228,7 @@ class Ui_role(object):
         self.addAttackButton.setGeometry(QtCore.QRect(50, 530, 21, 24))
         self.addAttackButton.setObjectName("addAttackButton")
         self.addAbilityButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.addAbilityButton.setGeometry(QtCore.QRect(260, 320, 21, 24))
+        self.addAbilityButton.setGeometry(QtCore.QRect(270, 320, 21, 24))
         self.addAbilityButton.setObjectName("addAbilityButton")
         self.abilityGridLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
         self.abilityGridLayoutWidget.setGeometry(QtCore.QRect(260, 350, 701, 191))

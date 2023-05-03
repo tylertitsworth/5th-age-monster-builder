@@ -1,5 +1,4 @@
 from utils.classes import Creature
-import qtmodern.styles, qtmodern.windows
 from builderUI import Ui_role
 from PyQt6 import QtWidgets, QtCore, QtGui
 
@@ -34,16 +33,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
         self.abilityRows = ["Hide", "Hide", "Hide", "Hide"]
         self.attackRows = ["Hide", "Hide", "Hide", "Hide", "Hide", "Hide", "Hide", "Hide"]
 
-        self.setupAttacks()
-        self.setupAbilities()
-        self.addAttack()
-
-        self.addAbilityButton.clicked.connect(self.addAbility)
-        self.addAttackButton.clicked.connect(self.addAttack)
-        self.generateButton.clicked.connect(self.generateCreature)
-        self.resetButton.clicked.connect(self.displayOutput.clear)
-
-    def setupAbilities(self):
         for n, i in enumerate(self.abilityRows):
             self.ability_names.append(
                 QtWidgets.QLineEdit(parent=self.abilityGridLayoutWidget)
@@ -79,7 +68,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 QtCore.QCoreApplication.translate("role", ":")
             )
             self.ability_labels[n].hide()
-            self.abilityGridLayout.addWidget(self.ability_labels[n], n, 5, 1, 1)
+            self.abilityGridLayout.addWidget(self.ability_labels[n], n, 2, 1, 1)
 
             self.ability_descriptions.append(
                 QtWidgets.QLineEdit(parent=self.abilityGridLayoutWidget)
@@ -89,7 +78,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 QtCore.QCoreApplication.translate("role", "Description")
             )
             self.ability_descriptions[n].hide()
-            self.abilityGridLayout.addWidget(self.ability_descriptions[n], n, 6, 1, 1)
+            self.abilityGridLayout.addWidget(self.ability_descriptions[n], n, 3, 1, 1)
 
             self.ability_buttons.append(
                 QtWidgets.QPushButton(parent=self.abilityGridLayoutWidget)
@@ -98,12 +87,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
             self.ability_buttons[n].setText(
                 QtCore.QCoreApplication.translate("role", "-")
             )
-            self.abilityGridLayout.addWidget(self.ability_buttons[n], n, 7, 1, 1)
+            self.abilityGridLayout.addWidget(self.ability_buttons[n], n, 4, 1, 1)
             self.ability_buttons[n].row = n
             self.ability_buttons[n].hide()
             self.ability_buttons[n].clicked.connect(self.removeAbility)
 
-    def setupAttacks(self):
         for n, i in enumerate(self.attackRows):
             if n % 2 == 0:
                 self.attack_ranges.append(
@@ -363,6 +351,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 self.attack_ranges.append("")
                 self.attack_types.append("")
                 self.condition_add_buttons.append("")
+
+        self.addAttack()
+
+        self.addAbilityButton.clicked.connect(self.addAbility)
+        self.addAttackButton.clicked.connect(self.addAttack)
+        self.generateButton.clicked.connect(self.generateCreature)
+        self.resetButton.clicked.connect(self.displayOutput.clear)
 
     def addAbility(self):
         for idx, row in enumerate(self.abilityRows):
@@ -641,19 +636,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                             }
                         )
 
-        # TODO: Input Handling
-        # TODO: Unit Tests
-            # setupAbilities
-            # setupAttacks
-            # addAbility
-            # addAttack
-            # addCondition
-            # removeAbility
-            # removeAttack
-            # removeCondition
-            # generateCreature
-
         self.displayOutput.clear()
+
+        if self.favored_defense.selectedItems() == []:
+            self.displayOutput.insertPlainText("Please select a Favored Defense")
+            return
 
         self.displayOutput.insertPlainText(
             str(
@@ -685,8 +672,5 @@ if __name__ == "__main__":
 
     window = MainWindow()
 
-    # qtmodern.styles.dark(app)
-    # mw = qtmodern.windows.ModernWindow(window)
-    # mw.show()
     window.show()
     app.exec()

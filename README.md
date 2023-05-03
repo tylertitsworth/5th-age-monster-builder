@@ -258,7 +258,198 @@ jobs:
 
 ### 5. GUI
 
-<!--- https://www.pythonguis.com/ --->
+#### 1. Setup
+
+Create a windows virtual environment and install the required packages so you can access the GUI designer GUI.
+
+_Minimum Requirements:_ `python3.10`
+
+```powershell
+python -m venv venv
+venv\Scripts\Activate.ps1
+python -m pip install -U pip 
+python -m pip install -r requirements.txt
+.\venv\Lib\site-packages\qt6_applications\Qt\bin\designer.exe
+```
+
+#### 2. Design the GUI
+
+Design your application using the GUI designer and save it as `builder.ui`. Then, convert the `.ui` file into a `.py` file.
+
+```powershell
+pyuic6 .\builder.ui -o .\src\builderUI.py
+```
+
+The output file will be very long, and since it's a generated file you should not change it. All of the operating functions will be in `app.py`.
+
+Start with something simple, and replace your main function with:
+
+```python
+from builderUI import Ui_role
+from PyQt6 import QtWidgets, QtCore, QtGui
+
+class MainWindow(QtWidgets.QMainWindow, Ui_role):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.setupUi(self)
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication([])
+
+    window = MainWindow()
+
+    window.show()
+    app.exec()
+```
+
+#### 3. Add Functionality to GUI Elements
+
+For each button you add, ensure that you have a function to handle the button press.
+
+```python
+self.addAbilityButton.clicked.connect(self.addAbility)
+self.addAttackButton.clicked.connect(self.addAttack)
+self.generateButton.clicked.connect(self.generateCreature)
+self.resetButton.clicked.connect(self.displayOutput.clear)
+```
+
+Add functionality to generate more UI elements by adding a bunch of hidden elements and functionality to show them on a button press. This is a bit of a hack, but it works and I'm omitting the attack and trigger functions for brevity.
+
+```python
+class MainWindow(QtWidgets.QMainWindow, Ui_role):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.setupUi(self)
+
+        self.ability_buttons = []
+        self.ability_dcs = []
+        self.ability_descriptions = []
+        self.ability_labels = []
+        self.ability_names = []
+
+        self.abilityRows = ["Hide", "Hide", "Hide", "Hide"]
+
+        for n, i in enumerate(self.abilityRows):
+            self.ability_names.append(QtWidgets.QLineEdit(parent=self.abilityGridLayoutWidget))
+            self.ability_names[n].setObjectName(f"ability_name_{n}")
+            self.ability_names[n].setText(QtCore.QCoreApplication.translate("role", "Ability Name"))
+            self.ability_names[n].hide()
+            self.abilityGridLayout.addWidget(self.ability_names[n], n, 0, 1, 1)
+
+            self.ability_dcs.append(QtWidgets.QLineEdit(parent=self.abilityGridLayoutWidget))
+            self.ability_dcs[n].setObjectName(f"ability_dc_{n}")
+            self.ability_dcs[n].setText(QtCore.QCoreApplication.translate("role", "DC"))
+            self.ability_dcs[n].hide()
+            self.abilityGridLayout.addWidget(self.ability_dcs[n], n, 1, 1, 1)
+
+            self.ability_labels.append(QtWidgets.QLabel(parent=self.abilityGridLayoutWidget))
+            self.ability_labels[n].setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+            self.ability_labels[n].setAlignment(
+                QtCore.Qt.AlignmentFlag.AlignRight
+                | QtCore.Qt.AlignmentFlag.AlignTrailing
+                | QtCore.Qt.AlignmentFlag.AlignVCenter
+            )
+            self.ability_labels[n].setObjectName(f"ability_label_{n}")
+            self.ability_labels[n].setText(QtCore.QCoreApplication.translate("role", ":"))
+            self.ability_labels[n].hide()
+            self.abilityGridLayout.addWidget(self.ability_labels[n], n, 2, 1, 1)
+
+            self.ability_descriptions.append(QtWidgets.QLineEdit(parent=self.abilityGridLayoutWidget))
+            self.ability_descriptions[n].setObjectName(f"ability_description_{n}")
+            self.ability_descriptions[n].setText(QtCore.QCoreApplication.translate("role", "Description"))
+            self.ability_descriptions[n].hide()
+            self.abilityGridLayout.addWidget(self.ability_descriptions[n], n, 3, 1, 1)
+
+            self.ability_buttons.append(QtWidgets.QPushButton(parent=self.abilityGridLayoutWidget))
+            self.ability_buttons[n].setObjectName(f"ability_button_{n}")
+            self.ability_buttons[n].setText(QtCore.QCoreApplication.translate("role", "-"))
+            self.abilityGridLayout.addWidget(self.ability_buttons[n], n, 4, 1, 1)
+            self.ability_buttons[n].row = n
+            self.ability_buttons[n].hide()
+            self.ability_buttons[n].clicked.connect(self.removeAbility)
+
+    def addAbility(self):
+        for idx, row in enumerate(self.abilityRows):
+            if row == "Hide":
+                self.abilityRows[idx] = "Show"
+                self.ability_names[idx].show()
+                self.ability_dcs[idx].show()
+                self.ability_labels[idx].show()
+                self.ability_descriptions[idx].show()
+                self.ability_buttons[idx].show()
+                break
+
+    def removeAbility(self):
+        self.abilityRows[self.sender().row] = "Hide"
+        self.ability_names[self.sender().row].hide()
+        self.ability_dcs[self.sender().row].hide()
+        self.ability_labels[self.sender().row].hide()
+        self.ability_descriptions[self.sender().row].hide()
+        self.ability_buttons[self.sender().row].hide()
+```
+
+Add Functionality to generate a creature. Again omitting the attack and trigger functions for brevity.
+
+```python
+def generateCreature(self):
+    abilities = []
+    for idx, row in enumerate(self.abilityRows):
+        if row == "Show":
+            if self.ability_dcs[idx]:
+                abilities.append(
+                    {
+                        "name": self.ability_names[idx].text(),
+                        "description": self.ability_descriptions[idx].text(),
+                        "dc": self.ability_dcs[idx].text(),
+                    }
+                )
+            else:
+                abilities.append(
+                    {
+                        "name": self.ability_names[idx].text(),
+                        "description": self.ability_descriptions[idx].text(),
+                    }
+                )
+    self.displayOutput.clear()
+
+    if self.favored_defense.selectedItems() == []:
+        self.displayOutput.insertPlainText("Please select a Favored Defense")
+        return
+
+    self.displayOutput.insertPlainText(
+        str(
+            Creature(
+                name=self.name.text(),
+                abilities=abilities,
+                attacks=attacks,
+                creature_type=self.type.currentText(),
+                favored_defenses=[i.text() for i in self.favored_defense.selectedItems()],
+                immunities=[i.text() for i in self.immunities.selectedItems()],
+                initiative_type=self.initiative_modifier.currentText(),
+                level=int(self.level.currentText()),
+                role=self.role.currentText(),
+                size=self.creatureSize.currentText(),
+                strength=self.strength.currentText(),
+                template=self.template.currentText(),
+                vulnerabilities=[i.text() for i in self.vulnerabilities.selectedItems()],
+            )
+        )
+    )
+```
+
+#### 4. Run the GUI
+
+```powershell
+python .\src\app.py
+```
+
+![image](https://user-images.githubusercontent.com/43555799/235815513-5ac987a7-956e-4f61-8bbe-eca6e3e0c79e.png)
+
+#### 5. Build a Creature!
+
+![image](https://user-images.githubusercontent.com/43555799/235817616-d544ebec-0ef2-43df-83df-ddbf71880a6c.png)
+
+>Unit Tests for the `MainWindow` class functions were unable to be produced because the GUI can't run in the test environment so the functions can't be tested.
 
 ### 6. Packaging
 
