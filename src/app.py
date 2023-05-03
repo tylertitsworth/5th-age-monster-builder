@@ -28,7 +28,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
         self.condition_conditions = []
         self.condition_descriptions = []
         self.condition_labels = []
-        self.condition_recharges = []
 
         self.abilityRows = ["Hide", "Hide", "Hide", "Hide"]
         self.attackRows = ["Hide", "Hide", "Hide", "Hide", "Hide", "Hide", "Hide", "Hide"]
@@ -273,7 +272,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 self.condition_conditions.append("")
                 self.condition_descriptions.append("")
                 self.condition_labels.append("")
-                self.condition_recharges.append("")
 
             else:
                 self.condition_conditions.append(
@@ -285,18 +283,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 )
                 self.condition_conditions[n].hide()
                 self.attackGridLayout.addWidget(
-                    self.condition_conditions[n], n, 0, 1, 1
+                    self.condition_conditions[n], n, 1, 1, 1
                 )
-
-                self.condition_recharges.append(
-                    QtWidgets.QLineEdit(parent=self.attackGridLayoutWidget)
-                )
-                self.condition_recharges[n].setObjectName(f"condition_recharge_{n}")
-                self.condition_recharges[n].setText(
-                    QtCore.QCoreApplication.translate("role", "DC")
-                )
-                self.condition_recharges[n].hide()
-                self.attackGridLayout.addWidget(self.condition_recharges[n], n, 1, 1, 1)
 
                 self.condition_labels.append(
                     QtWidgets.QLabel(parent=self.attackGridLayoutWidget)
@@ -394,7 +382,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 self.condition_conditions[idx].show()
                 self.condition_descriptions[idx].show()
                 self.condition_labels[idx].show()
-                self.condition_recharges[idx].show()
                 break
 
     def removeAbility(self):
@@ -420,7 +407,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
     def removeCondition(self):
         self.attackRows[self.sender().row] = "Hide"
         self.condition_conditions[self.sender().row].hide()
-        self.condition_recharges[self.sender().row].hide()
         self.condition_labels[self.sender().row].hide()
         self.condition_descriptions[self.sender().row].hide()
         self.condition_buttons[self.sender().row].hide()
@@ -446,61 +432,33 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                             "description": self.ability_descriptions[idx].text(),
                         }
                     )
-
         for idx, row in enumerate(self.attackRows):
             if row == "Show":
                 if not hasattr(self.attack_types[idx], "currentText"):  # No Type
                     if idx % 2 == 0:
                         if self.attackRows[idx + 1] == "Show":  # Yes Condition
-                            if self.condition_recharges[idx + 1].text() == "":  # No Recharge
-                                attacks.append(
-                                    {
-                                        "defense": self.attack_defenses[
-                                            idx
-                                        ].currentText(),
-                                        "description": self.attack_descriptions[
-                                            idx
-                                        ].text(),
-                                        "name": self.attack_names[idx].text(),
-                                        "range": self.attack_ranges[idx].currentText(),
-                                        "triggers": [
-                                            {
-                                                "condition": self.condition_conditions[
-                                                    idx + 1
-                                                ].text(),
-                                                "description": self.condition_descriptions[
-                                                    idx + 1
-                                                ].text(),
-                                            }
-                                        ],
-                                    }
-                                )
-                            else:  # Yes Recharge
-                                attacks.append(
-                                    {
-                                        "defense": self.attack_defenses[
-                                            idx
-                                        ].currentText(),
-                                        "description": self.attack_descriptions[
-                                            idx
-                                        ].text(),
-                                        "name": self.attack_names[idx].text(),
-                                        "range": self.attack_ranges[idx].currentText(),
-                                        "triggers": [
-                                            {
-                                                "condition": self.condition_conditions[
-                                                    idx + 1
-                                                ].text(),
-                                                "description": self.condition_descriptions[
-                                                    idx + 1
-                                                ].text(),
-                                                "recharge": self.condition_recharges[
-                                                    idx + 1
-                                                ].text(),
-                                            }
-                                        ],
-                                    }
-                                )
+                            attacks.append(
+                                {
+                                    "defense": self.attack_defenses[
+                                        idx
+                                    ].currentText(),
+                                    "description": self.attack_descriptions[
+                                        idx
+                                    ].text(),
+                                    "name": self.attack_names[idx].text(),
+                                    "range": self.attack_ranges[idx].currentText(),
+                                    "triggers": [
+                                        {
+                                            "condition": self.condition_conditions[
+                                                idx + 1
+                                            ].text(),
+                                            "description": self.condition_descriptions[
+                                                idx + 1
+                                            ].text(),
+                                        }
+                                    ],
+                                }
+                            )
                         else:  # No Condition
                             attacks.append(
                                 {
@@ -515,61 +473,31 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                 else:  # Yes Type
                     if idx % 2 == 0:
                         if self.attackRows[idx + 1] == "Show":  # Yes Condition
-                            if self.condition_recharges[idx + 1].text() == "":  # No Recharge
-                                attacks.append(
-                                    {
-                                        "damage_type": self.attack_types[
-                                            idx
-                                        ].currentText(),
-                                        "defense": self.attack_defenses[
-                                            idx
-                                        ].currentText(),
-                                        "description": self.attack_descriptions[
-                                            idx
-                                        ].text(),
-                                        "name": self.attack_names[idx].text(),
-                                        "range": self.attack_ranges[idx].currentText(),
-                                        "triggers": [
-                                            {
-                                                "condition": self.condition_conditions[
-                                                    idx + 1
-                                                ].text(),
-                                                "description": self.condition_descriptions[
-                                                    idx + 1
-                                                ].text(),
-                                            }
-                                        ],
-                                    }
-                                )
-                            else:  # Yes Recharge
-                                attacks.append(
-                                    {
-                                        "damage_type": self.attack_types[
-                                            idx
-                                        ].currentText(),
-                                        "defense": self.attack_defenses[
-                                            idx
-                                        ].currentText(),
-                                        "description": self.attack_descriptions[
-                                            idx
-                                        ].text(),
-                                        "name": self.attack_names[idx].text(),
-                                        "range": self.attack_ranges[idx].currentText(),
-                                        "triggers": [
-                                            {
-                                                "condition": self.condition_conditions[
-                                                    idx + 1
-                                                ].text(),
-                                                "description": self.condition_descriptions[
-                                                    idx + 1
-                                                ].text(),
-                                                "recharge": self.condition_recharges[
-                                                    idx + 1
-                                                ].text(),
-                                            }
-                                        ],
-                                    }
-                                )
+                            attacks.append(
+                                {
+                                    "damage_type": self.attack_types[
+                                        idx
+                                    ].currentText(),
+                                    "defense": self.attack_defenses[
+                                        idx
+                                    ].currentText(),
+                                    "description": self.attack_descriptions[
+                                        idx
+                                    ].text(),
+                                    "name": self.attack_names[idx].text(),
+                                    "range": self.attack_ranges[idx].currentText(),
+                                    "triggers": [
+                                        {
+                                            "condition": self.condition_conditions[
+                                                idx + 1
+                                            ].text(),
+                                            "description": self.condition_descriptions[
+                                                idx + 1
+                                            ].text(),
+                                        }
+                                    ],
+                                }
+                            )
                         else:  # No Condition
                             attacks.append(
                                 {
@@ -584,57 +512,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_role):
                         pass
             else:
                 if idx % 2 == 0 and self.attackRows[idx - 2] == "Show" and self.attackRows[idx + 1] == "Show":
-                    if self.condition_recharges[idx + 1].text() == "":  # No Recharge
-                        attacks[idx - 2]["triggers"].append(
-                            {
-                                "condition": self.condition_conditions[
-                                    idx + 1
-                                ].text(),
-                                "description": self.condition_descriptions[
-                                    idx + 1
-                                ].text(),
-                            }
-                        )
-                    else:  # Yes Recharge
-                        attacks[idx - 2]["triggers"].append(
-                            {
-                                "condition": self.condition_conditions[
-                                    idx + 1
-                                ].text(),
-                                "description": self.condition_descriptions[
-                                    idx + 1
-                                ].text(),
-                                "recharge": self.condition_recharges[
-                                    idx + 1
-                                ].text(),
-                            }
-                        )
+                    attacks[idx - 2]["triggers"].append(
+                        {
+                            "condition": self.condition_conditions[
+                                idx + 1
+                            ].text(),
+                            "description": self.condition_descriptions[
+                                idx + 1
+                            ].text(),
+                        }
+                    )
                 if idx % 2 == 0 and idx >= 4 and self.attackRows[idx - 4] == "Show" and self.attackRows[idx + 1] == "Show":
-                    if self.condition_recharges[idx + 1].text() == "":  # No Recharge
-                        attacks[idx - 4]["triggers"].append(
-                            {
-                                "condition": self.condition_conditions[
-                                    idx + 1
-                                ].text(),
-                                "description": self.condition_descriptions[
-                                    idx + 1
-                                ].text(),
-                            }
-                        )
-                    else:  # Yes Recharge
-                        attacks[idx - 4]["triggers"].append(
-                            {
-                                "condition": self.condition_conditions[
-                                    idx + 1
-                                ].text(),
-                                "description": self.condition_descriptions[
-                                    idx + 1
-                                ].text(),
-                                "recharge": self.condition_recharges[
-                                    idx + 1
-                                ].text(),
-                            }
-                        )
+                    attacks[idx - 4]["triggers"].append(
+                        {
+                            "condition": self.condition_conditions[
+                                idx + 1
+                            ].text(),
+                            "description": self.condition_descriptions[
+                                idx + 1
+                            ].text(),
+                        }
+                    )
 
         self.displayOutput.clear()
 

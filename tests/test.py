@@ -101,8 +101,7 @@ class Test_TestCreature(unittest.TestCase):
                 "triggers": [
                     {
                         "condition": "even hit",
-                        "description": "One nearby lower-level mook makes an attack as a free action.",
-                        "recharge": "16",
+                        "description": "One nearby lower-level mook makes an attack as a free action."
                     }
                 ],
             },
@@ -126,8 +125,7 @@ class Test_TestCreature(unittest.TestCase):
                     "triggers": [
                         {
                             "condition": "even hit",
-                            "description": "One nearby lower-level mook makes an attack as a free action.",
-                            "recharge": "16",
+                            "description": "One nearby lower-level mook makes an attack as a free action."
                         }
                     ],
                 },
@@ -219,8 +217,7 @@ class Test_TestAttack(unittest.TestCase):
         triggers = [
             {
                 "condition": "even hit",
-                "description": "One nearby lower-level mook makes an attack as a free action.",
-                "recharge": "16",
+                "description": "One nearby lower-level mook makes an attack as a free action."
             },
             {
                 "condition": "even hit",
@@ -231,8 +228,7 @@ class Test_TestAttack(unittest.TestCase):
             Trigger(
                 {
                     "condition": "even hit",
-                    "description": "One nearby lower-level mook makes an attack as a free action.",
-                    "recharge": "16",
+                    "description": "One nearby lower-level mook makes an attack as a free action."
                 }
             ),
             Trigger(
@@ -252,10 +248,6 @@ class Test_TestAttack(unittest.TestCase):
             self.assertEqual(
                 Attack.setTriggers(self, triggers)[idx].description,
                 triggersAnswer[idx].description,
-            )
-            self.assertEqual(
-                Attack.setTriggers(self, triggers)[idx].recharge,
-                triggersAnswer[idx].recharge,
             )
 
 

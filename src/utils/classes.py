@@ -252,8 +252,9 @@ class Trigger:
     def __str__(self):
         str = "Natural "
         if self.condition != None:
-            if isinstance(self.condition, int):
+            try:
+                int(self.condition)
                 str += f"{self.condition}+"
-            else:
+            except:
                 str += f"{self.condition}"
         return f"{str}: {self.description}"
