@@ -4,7 +4,7 @@
 
 ```
 .
-├── README.md
+├── build.ps1
 ├── data
 │   ├── huge_stats.csv
 │   ├── initiative.csv
@@ -12,14 +12,15 @@
 │   ├── mook_stats.csv
 │   ├── normal_stats.csv
 │   └── template.csv
-├── docker
+├── README.md
 ├── requirements.txt
 ├── src
 │   ├── app.py
+│   ├── builderUI.py
 │   └── utils
-│       ├── classes.py
-│       └── data.py
+│       └── classes.py
 └── tests
+    └── test.py
 ```
 
 ## Steps
